@@ -27,6 +27,7 @@ router.post('/login', function(req, res) {
     if (password === result[0].password) {
       res.cookie('username', result[0].user_name);
       res.cookie('uid', result[0].user_id);
+
       res.json({
         code: 200,
         msg: 'success',
@@ -35,8 +36,8 @@ router.post('/login', function(req, res) {
     } else {
       res.json({
         code: 0,
-        msg: 'error',
-        data: '密码错误'
+        msg: '密码错误',
+        data: ''
       });
     }
   })
@@ -148,4 +149,90 @@ router.post('/unlock', (req, res) => {
     }
   })
 })
+
+router.post('/articleDetail', (req, res) => {
+  if (!req.cookies.uid) {
+    res.json({
+      code: 500,
+      msg: '未登陆',
+      data: ''
+    })
+  }
+  let {id, type} = req.body
+  let sql = ''
+  if (+type === 1) {
+    sql = 'select article_id,content,title,create_user,create_time from long_text where article_id=?'
+  } else {
+    sql = 'select article_id,content,title,create_user,create_time,img_arr from alats where article_id=?'
+  }
+  let sqlParams = [+id]
+  connection.query(sql, sqlParams, (err, result) => {
+    if (err) {
+      res.json({
+        code: 500,
+        msg: err,
+        data: ''
+      });
+      return
+    } else {
+      if (result.length > 0) {
+        res.json({
+          code: 200,
+          msg: 'success',
+          data: result[0]
+        });
+      } else {
+        res.json({
+          code: 0,
+          msg: '未查找到此记录',
+          data: ''
+        });
+      }
+    }
+  })
+})
+
+router.post('/delArticleById', (req, res) => {
+  if (!req.cookies.uid) {
+    res.json({
+      code: 500,
+      msg: '未登陆',
+      data: ''
+    })
+  }
+  let {id, type} = req.body
+  let sql = ''
+  if (+type === 1) {
+    sql = 'delete from long_text where article_id=?'
+  } else {
+    sql = 'delete from alats where article_id=?'
+  }
+  let sqlParams = [+id]
+  connection.query(sql, sqlParams, (err, result) => {
+    if (err) {
+      res.json({
+        code: 500,
+        msg: err,
+        data: ''
+      });
+      return
+    } else {
+      if (result.length > 0) {
+        res.json({
+          code: 200,
+          msg: 'success',
+          data: '删除成功'
+        });
+      } else {
+        res.json({
+          code: 0,
+          msg: '未查找到此记录',
+          data: ''
+        });
+      }
+    }
+  })
+})
+
+
 module.exports = router;

@@ -16,7 +16,7 @@
         </div>
         <ul class="home-list-wrap">
             <li v-for="(item, index) in vo.list" :key="index">
-                <div>{{item.title}}</div>
+                <div class="left-content">{{item.title}}</div>
                 <div class="right-content" @click="jumpPage(item)">
                     <img v-if="item.is_open === 2" width="20" height="20" src="../../assets/img/lock.png">
                     <van-icon name="arrow" />
@@ -45,7 +45,7 @@
             list: [],
             password: '',
             passwordId: '',
-            type: '',
+            type: 0,
         }
 
         private created () {
@@ -56,7 +56,14 @@
             if (item.is_open === 2) {
                 this.opModel(item.article_id, item.type)
             } else {
-
+                this.$router.push({
+                    path: item.type === 1 ? '/view-text' : '/view-card',
+                    query: {
+                        //@ts-ignore
+                        id: item.article_id,
+                        type: item.type
+                    }
+                })
             }
         }
 
@@ -64,7 +71,7 @@
             Object.assign(this.vo, {
                 password: '',
                 passwordId: '',
-                type: '',
+                type: 0,
             })
         }
 
@@ -74,12 +81,16 @@
                 password: this.getVoState('password'),
                 type: this.getVoState('type')
             })
-            if (res.code === 0) {
-                if (this.getVoState('type') == 1) {
-
-                } else {
-
-                }
+            if (res.code === 200) {
+                let id = this.vo.passwordId
+                let type = this.vo.type
+                this.$router.push({
+                    path: this.vo.type == 1 ? '/view-text' : '/view-card',
+                    //@ts-ignore
+                    query: {id, type}
+                })
+            } else {
+                this.warningMsg(res.msg)
             }
         }
         private async opModel (id: number, type: number) {
@@ -138,6 +149,12 @@
                     img {
                         margin-right: 15px;
                     }
+                }
+                .left-content {
+                    max-width: 250px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
                 &:after {
                     content: '';

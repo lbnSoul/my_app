@@ -48,7 +48,9 @@
             const res = await uploadImgApi(formData)
             if (res.code === 200) {
                 res.imageUrl.map((item: any) => {
+                    //@ts-ignore
                     if (!this.vo.imgs.includes(item)) {
+                        //@ts-ignore
                         this.vo.imgs.push(item)
                     }
                 })

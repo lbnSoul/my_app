@@ -32,3 +32,15 @@ export const articleUnlockApi = (data: any): any => axios({
     method: 'POST',
     data,
 });
+
+export const getCardDetailApi = (data: any): any => axios({
+    url: '/articleDetail',
+    method: 'POST',
+    data,
+});
+
+export const delArticleByIdApi = (data: any): any => axios({
+    url: '/delArticleById',
+    method: 'POST',
+    data,
+});

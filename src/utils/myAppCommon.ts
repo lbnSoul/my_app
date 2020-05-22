@@ -1,11 +1,18 @@
+import { Toast } from 'vant';
 export default {
     install(vue: any) {
         vue.prototype.successMsg = (str: string): void => {
-
+            Toast({
+                message: str,
+                type: 'success'
+            })
         };
 
         vue.prototype.warningMsg = (str: string): void => {
-
+            Toast({
+                message: str,
+                type: 'fail'
+            })
         };
         vue.mixin({
             methods: {

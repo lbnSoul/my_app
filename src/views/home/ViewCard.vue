@@ -1,31 +1,61 @@
 <template>
     <mu-container>
         <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-            <mu-card-header title="Myron Avatar" sub-title="sub title">
+            <mu-card-header :title="vo.detail.create_user" :sub-title="'创建于' + vo.detail.create_time">
                 <mu-avatar slot="avatar">
                     <img src="../../assets/img/7.jpeg">
                 </mu-avatar>
             </mu-card-header>
-            <mu-card-media title="Image Title" sub-title="Image Sub Title">
-                <img src="../../assets/img/l-bg.jpeg">
-            </mu-card-media>
-            <mu-card-title title="Content Title" sub-title="Content Title"></mu-card-title>
+            <van-swipe class="my-swipe" indicator-color="white">
+                <van-swipe-item v-for="(item, index) in vo.imgs" :key="index"><img :src="item"></van-swipe-item>
+            </van-swipe>
+            <mu-card-title :title="vo.detail.title"></mu-card-title>
             <mu-card-text>
-                散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-                调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-                似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
-                找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
+                {{vo.detail.content}}
             </mu-card-text>
         </mu-card>
     </mu-container>
 </template>
 
-<script>
-    export default {
-        name: "viewLongText"
+<script lang="ts">
+    import {Component, Vue} from 'vue-property-decorator';
+    import { getCardDetailApi } from '@/api/home';
+    @Component
+    export default class ViewCard extends Vue {
+        private vo = {
+            detail: {},
+            imgs: []
+        }
+
+        private created () {
+            this.getDetail()
+        }
+
+        private async getDetail () {
+            try {
+                const res = await getCardDetailApi({
+                    id: this.$route.query.id,
+                    type: this.$route.query.type
+                })
+                if (res.code === 200) {
+                    this.setVoState('detail', res.data)
+                    this.setVoState('imgs', res.data.img_arr.split('+'))
+                } else {
+                    this.warningMsg(res.msg)
+                }
+            } catch (e) {
+                throw new Error(e)
+            }
+        }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .my-swipe .van-swipe-item {
+        color: #fff;
+        font-size: 20px;
+        line-height: 150px;
+        text-align: center;
+        background-color: #39a9ed;
+    }
 </style>

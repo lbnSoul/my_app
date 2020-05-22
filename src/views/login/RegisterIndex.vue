@@ -56,6 +56,7 @@
         private checkForm () {
             for (let i = 0; i < Object.keys(this.vo).length; i++) {
                 let key = Object.keys(this.vo)[i]
+                //@ts-ignore
                 if (this.vo[key] === '') {
                     return '请将信息填写完整'
                 }
@@ -79,7 +80,6 @@
                 this.successMsg(res.msg)
                 this.$router.push('/login')
             } else {
-                console.log(1)
                 this.warningMsg(res.msg)
             }
         }

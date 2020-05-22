@@ -45,11 +45,11 @@ router.post('/addAlats', (req, res) => {
     let sql = ''
     let sqlParams = null
     if (isOpen === '1') {
-         sql = "INSERT INTO alats(title, content, is_open, uid, type, img_arr) VALUES(?,?,?,?,?,?)"
-         sqlParams = [title, content, isOpen, req.cookies.uid, type, imgs.join('+')]
+         sql = "INSERT INTO alats(title, content, is_open, uid, type, img_arr, create_user) VALUES(?,?,?,?,?,?,?)"
+         sqlParams = [title, content, isOpen, req.cookies.uid, type, imgs.join('+'), req.cookies.username]
     } else {
-        sql = "INSERT INTO alats(title, content, is_open, uid, type, img_arr, password) VALUES(?,?,?,?,?,?,?)"
-        sqlParams = [title, content, isOpen, req.cookies.uid, type, imgs, password]
+        sql = "INSERT INTO alats(title, content, is_open, uid, type, img_arr, password,create_user) VALUES(?,?,?,?,?,?,?,?)"
+        sqlParams = [title, content, isOpen, req.cookies.uid, type, imgs, password, req.cookies.username]
     }
     connection.query(sql, sqlParams, (err, result) => {
         if (err) {
