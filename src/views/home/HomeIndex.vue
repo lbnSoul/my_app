@@ -1,7 +1,7 @@
 <template>
     <div class="my-home-wrap">
         <div class="title">
-            <span>XXXXX</span>
+            <span>323秘密基地</span>
             <mu-menu cover placement="bottom-end" :open.sync="isShow">
                 <div class="add-btn">+</div>
                 <mu-list slot="content">
