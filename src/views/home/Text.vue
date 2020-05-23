@@ -10,8 +10,8 @@
             <mu-card-text>{{vo.detail.content}}</mu-card-text>
         </mu-card>
         <van-tabbar>
-            <van-tabbar-item >评论</van-tabbar-item>
-            <van-tabbar-item >删除</van-tabbar-item>
+            <van-tabbar-item @click="comment">评论</van-tabbar-item>
+            <van-tabbar-item @click="deleteArticle">删除</van-tabbar-item>
         </van-tabbar>
     </mu-container>
 </template>
@@ -29,13 +29,20 @@
             this.getDetail()
         }
 
-        private async delArticle () {
+        private comment () {
+            this.warningMsg('开发中')
+        }
+
+        private async deleteArticle () {
             const res: ResponseData = await delArticleByIdApi({
                 id: this.$route.query.id,
                 type: this.$route.query.type
             })
             if (res.code === 200) {
                 this.successMsg('删除成功')
+                this.$router.push('/home')
+            } else {
+                this.warningMsg(res.msg)
             }
         }
 
@@ -57,6 +64,8 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .container {
+        padding: 0;
+    }
 </style>

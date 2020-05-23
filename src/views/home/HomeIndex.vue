@@ -84,12 +84,14 @@
             if (res.code === 200) {
                 let id = this.vo.passwordId
                 let type = this.vo.type
+                this.close()
                 this.$router.push({
                     path: this.vo.type == 1 ? '/view-text' : '/view-card',
                     //@ts-ignore
                     query: {id, type}
                 })
             } else {
+                this.close()
                 this.warningMsg(res.msg)
             }
         }

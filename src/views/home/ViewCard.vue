@@ -14,12 +14,16 @@
                 {{vo.detail.content}}
             </mu-card-text>
         </mu-card>
+        <van-tabbar>
+            <van-tabbar-item @click="comment()">评论</van-tabbar-item>
+            <van-tabbar-item @click="deleteArticle()">删除</van-tabbar-item>
+        </van-tabbar>
     </mu-container>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import { getCardDetailApi } from '@/api/home';
+    import {delArticleByIdApi, getCardDetailApi} from '@/api/home';
     @Component
     export default class ViewCard extends Vue {
         private vo = {
@@ -27,8 +31,25 @@
             imgs: []
         }
 
+        private comment () {
+            this.warningMsg('开发中')
+        }
+
         private created () {
             this.getDetail()
+        }
+
+        private async deleteArticle () {
+            const res: ResponseData = await delArticleByIdApi({
+                id: this.$route.query.id,
+                type: this.$route.query.type
+            })
+            if (res.code === 200) {
+                this.successMsg('删除成功')
+                this.$router.push('/home')
+            } else {
+                this.warningMsg(res.msg)
+            }
         }
 
         private async getDetail () {
@@ -51,11 +72,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .my-swipe .van-swipe-item {
-        color: #fff;
-        font-size: 20px;
-        line-height: 150px;
-        text-align: center;
-        background-color: #39a9ed;
+    .container {
+        padding: 0;
     }
 </style>

@@ -13,9 +13,9 @@ router.post('/addLongText', (req, res) => {
             data: ''
         })
     }
-    const {title, content, isOpen, type} = req.body
-    let sql = "INSERT INTO long_text(title, content, is_open, uid, type) VALUES(?,?,?,?,?)"
-    let sqlParams = [title, content, isOpen, req.cookies.uid, type]
+    const {title, content, isOpen, type, password} = req.body
+    let sql = "INSERT INTO long_text(title, content, is_open, uid, type, password) VALUES(?,?,?,?,?,?)"
+    let sqlParams = [title, content, isOpen, req.cookies.uid, type, password]
     connection.query(sql, sqlParams, (err, result) => {
         if (err) {
             res.json({

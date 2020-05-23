@@ -5,7 +5,7 @@
             <p>欢迎登录</p>
         </div>
         <div class="login-logo" align="center">
-            <img src="../../assets/img/7.jpeg" alt="">
+            <img src="../../assets/img/7.jpeg">
             <p>划过美好生活</p>
         </div>
         <div class="form-group">
