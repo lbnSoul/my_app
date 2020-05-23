@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    if (['/login'].includes(to.path)) {
+    if (['/login','/register'].includes(to.path)) {
       next()
     } else {
       next({path: '/login', replace: true})
