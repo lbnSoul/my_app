@@ -3,7 +3,7 @@
         <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
             <mu-card-header :title="vo.detail.create_user" :sub-title="'创建于' + vo.detail.create_time">
                 <mu-avatar slot="avatar">
-                    <img src="../../assets/img/7.jpeg">
+                    <img src="../../assets/img/WechatIMG10.jpeg">
                 </mu-avatar>
             </mu-card-header>
             <mu-card-title :title="vo.detail.title"></mu-card-title>
